@@ -1,4 +1,5 @@
 import fileinput
+import mmap
 import os
 import sys
 import tempfile
@@ -10,12 +11,13 @@ from typing import Dict, List, Tuple
 def split(input_file: str, split_filenames: List[str]) -> None:
     """Split input file into `small` files based on modular of hash value."""
     nsplit = len(split_filenames)
-    split_files = [open(fname, 'w') for fname in split_filenames]
+    split_files = [open(fname, 'wb') for fname in split_filenames]
 
     with open(input_file) as f:
-        for line in f:
-            findex = hash(line) % nsplit
-            split_files[findex].write(line)
+        with mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ) as mm:
+            for line in iter(mm.readline, b''):
+                findex = hash(line) % nsplit
+                split_files[findex].write(line)
 
     [f.close() for f in split_files]
 
@@ -29,9 +31,10 @@ def count_urls(input_file: str, count_file: str, n: int = 100) -> List[Tuple[str
     with open(input_file) as ifp, open(count_file, 'w') as ofp:
         for line in ifp:
             c[line] += 1
-        for url, count in c.items():
-            ofp.write('{},{}\n'.format(count, url.strip()))
-        return c.most_common(n)
+        topn = c.most_common(n)
+        for url, count in topn:
+            ofp.write('{},{}'.format(url, count))
+        return topn
 
 
 def topn(input_file: str, n: int = 100) -> None:
@@ -53,12 +56,13 @@ def topn(input_file: str, n: int = 100) -> None:
         for split_fname, count_fname in zip(split_filenames, count_filenames):
             url_counter.update(dict(count_urls(split_fname, count_fname, n)))
 
+        top10n = url_counter.most_common(n * 10)
         least_count = 0
-        for url, count in url_counter.most_common(n):
+        for url, count in top10n[:n]:
             print(count, url.strip())
             least_count = count
 
-        for url, count in url_counter.most_common()[n:]:
+        for url, count in top10n[n:]:
             if count != least_count:
                 break
             print(count, url.strip())
