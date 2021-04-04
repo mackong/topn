@@ -14,5 +14,5 @@ test:
 run:
 	@sudo cgcreate -g memory:topn
 	@sudo cgset -r memory.limit_in_bytes=1073741824 topn
-	@sudo cgexec -g memory:topn $(PYTHON) topn.py urls.py
+	@sudo cgexec -g memory:topn $(PYTHON) topn.py urls.txt
 	@sudo cgdelete memory:topn
