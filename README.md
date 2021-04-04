@@ -3,7 +3,7 @@ A simple app to calculate topn of most occured urls in a large file which cannot
 
 # URL Dataset
 The base url dataset is get from https://www.kaggle.com/shawon10/url-classification-dataset-dmoz,
-which is *55MB and without duplicate urls*. then with some shell commands to get a 100GB file.
+which is *55MB*. then with some shell commands to get a 100GB file.
 ```
 unzip 'URL Classification.csv.zip'
 awk -F, 'print $2' 'URL Classification.csv' > urls.base.txt
