@@ -22,25 +22,21 @@ def split(input_file: str, split_filenames: List[str]) -> None:
     [f.close() for f in split_files]
 
 
-def count_urls(input_file: str, count_file: str, n: int = 100) -> List[Tuple[str, int]]:
-    """Count the occurrences of urls in input_file, write the count result into count_file.
+def count_urls(input_file: str, n: int = 100) -> List[Tuple[str, int]]:
+    """Count the occurrences of urls in input_file.
 
     Returns the topn occurrences of urls in descending order.
     """
     c = Counter()
-    with open(input_file) as ifp, open(count_file, 'w') as ofp:
-        for line in ifp:
+    with open(input_file) as f:
+        for line in f:
             c[line] += 1
-        topn = c.most_common(n)
-        for url, count in topn:
-            ofp.write('{},{}'.format(url, count))
-        return topn
+        return c.most_common(n)
 
 
 def topn(input_file: str, n: int = 100) -> None:
     """Print the topn occurrences of urls in input file."""
     split_prefix = 'split'
-    count_prefix = 'count'
 
     # A prime number may make the distribution more uniform.
     # NOTE: if greater than 1024, we may need to change the limitation of open files.
@@ -48,13 +44,12 @@ def topn(input_file: str, n: int = 100) -> None:
 
     with tempfile.TemporaryDirectory(prefix='topn') as work_dir:
         split_filenames = [os.path.join(work_dir, '{}.{}'.format(split_prefix, i+1)) for i in range(nsplit)]
-        count_filenames = [os.path.join(work_dir, '{}.{}'.format(count_prefix, i+1)) for i in range(nsplit)]
 
         split(input_file, split_filenames)
 
         url_counter = Counter()
-        for split_fname, count_fname in zip(split_filenames, count_filenames):
-            url_counter.update(dict(count_urls(split_fname, count_fname, n)))
+        for split_fname in split_filenames:
+            url_counter.update(dict(count_urls(split_fname, n)))
 
         top10n = url_counter.most_common(n * 10)
         least_count = 0
