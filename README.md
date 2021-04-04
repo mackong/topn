@@ -11,7 +11,7 @@ awk -F, 'print $2' 'URL Classification.csv' > urls.base.txt
 # 100GB / 55MB ~= 1862
 
 # Get the top 100 of base urls.
-sort urls.base.txt | uniq -c | sort -rn | head -n 100 | awk '{print $2, $1*1862}' > expect.txt
+sort urls.base.txt | uniq -c | sort -rn | head -n 100 | awk '{print $1*1862, $2}' > expect.txt
 
 # Concanate to 100GB
 for i in {1..1862}
