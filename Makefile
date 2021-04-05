@@ -11,6 +11,9 @@ data:
 time33:
 	@cd wip && $(PYTHON) setup.py install
 
+uring:
+	@cd wip && gcc -g -Wall -O2 -o uring uring.c -luring
+
 test:
 	@$(PYTHON) topn.py
 
