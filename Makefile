@@ -9,7 +9,7 @@ data:
 	@$(SHELL) gendata.sh
 
 time33:
-	@$(PYTHON) setup.py install
+	@cd wip && $(PYTHON) setup.py install
 
 test:
 	@$(PYTHON) topn.py
