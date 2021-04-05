@@ -1,5 +1,6 @@
-SHELL=bash
-PYTHON=python3
+SHELL?=bash
+PYTHON?=python3
+CC?=gcc
 
 .PHONY: all
 
@@ -12,7 +13,7 @@ time33:
 	@cd wip && $(PYTHON) setup.py install
 
 uring:
-	@cd wip && gcc -g -Wall -O2 -o uring uring.c -luring
+	@cd wip && $(CC) -g -Wall -O2 -o uring uring.c -luring
 
 test:
 	@$(PYTHON) topn.py
