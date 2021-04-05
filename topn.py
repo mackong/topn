@@ -1,4 +1,3 @@
-import fileinput
 import mmap
 import os
 import sys
