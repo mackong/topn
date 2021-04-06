@@ -111,7 +111,7 @@ user	0m0.119s
 sys	0m0.960s
 ```
 ## concurrent
-Use multi-threads to do hash calculation, and sync with disk IO using a queue. But python has a pool multi-threads support, maybe fail.
+Use multi-threads to do hash calculation, and sync with disk IO using a queue. But python has a poor multi-threads support, maybe fail.
 
 ## approximate algorithm
 For some situation, approximate topn for large datasets is accetable. There are some algorithms like
