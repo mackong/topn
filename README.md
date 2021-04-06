@@ -1,6 +1,22 @@
 # Introduction
 A simple program to calculate topn of most occured urls in a large file (100GB) which cannot be loaded into memory (1GB) directly.
 
+# Usage
+## generate test data
+```
+make data
+```
+
+## test with 1GB urls
+```
+make test
+```
+
+## run with 100GB urls
+```
+make run
+```
+
 # Algorithm
 1. Split the input file into 1009 small files based on hash(url).
 2. Load each small file, calculate the occurrences of urls by a dict, and then get the topn occurrences by a heap.
