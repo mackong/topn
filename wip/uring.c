@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT */
 /*
- * gcc -Wall -O2 -D_GNU_SOURCE -o io_uring-cp io_uring-cp.c -luring
+ * gcc -Wall -O2 -D_GNU_SOURCE -o uring uring.c -luring
  */
 #include <stdio.h>
 #include <fcntl.h>
