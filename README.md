@@ -77,9 +77,7 @@ time ellapsed: 5712.109350933999 seconds.
 ```
 
 # Performance Profile (1GB)
-[performance.txt](./performance.txt)
-
-In the performance profile, we can see the main bottlenecks is
+In the [performance profile](./performance/scalene.txt), we can see the main bottlenecks is
 1. disk IO
 2. hash calculation
 
